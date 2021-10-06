@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
@@ -10,11 +12,11 @@ class Classique extends StatefulWidget {
 }
 
 class _ClassiqueState extends State<Classique> {
-
   String expression = "0";
   String result = "0";
   double size_expression = 45;
   double size_result = 30;
+
   changed(String symbol) {
     setState(() {
       if (symbol == '=') {
@@ -39,19 +41,46 @@ class _ClassiqueState extends State<Classique> {
             break;
           }
         case "=":
-          try {
-            Parser p = Parser();
-            Expression exp = p.parse(expression);
-            ContextModel cm = ContextModel();
-            result = '${exp.evaluate(EvaluationType.REAL, cm)}';
-          } catch (e) {
-            result = 'ERROR';
+          {
+            String equation = '';
+            equation = expression;
+            equation = equation.replaceAll(',', '.');
+            try {
+              Parser p = Parser();
+              Expression exp = p.parse(equation);
+              ContextModel cm = ContextModel();
+              result = '${exp.evaluate(EvaluationType.REAL, cm)}';
+              result = result.replaceAll('.', ',');
+            } catch (e) {
+              result = 'ERROR';
+            }
+            break;
           }
-          break;
         default:
-          expression == "0"
-              ? expression = symbol
-              : expression = expression + symbol;
+
+          if (expression == "0") {
+            if (symbol==",") {
+              expression = expression + symbol;
+            } else {
+              expression = symbol;
+            }
+          } else {
+            expression = expression + symbol;
+          }
+
+        String equation = '';
+            equation = expression;
+            equation = equation.replaceAll(',', '.');
+            try {
+              Parser p = Parser();
+              Expression exp = p.parse(equation);
+              ContextModel cm = ContextModel();
+              result = '${exp.evaluate(EvaluationType.REAL, cm)}';
+              result = result.replaceAll('.', ',');
+            } catch (e) {
+              result="...";
+            }    
+    
       }
     });
   }
@@ -87,24 +116,40 @@ class _ClassiqueState extends State<Classique> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: ListView(
-                        children: [
-                          Text(
-                            expression,
-                            style: TextStyle(
-                                fontSize: size_expression,
-                                fontWeight: FontWeight.bold),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: 100,
+                          alignment: Alignment.centerRight,
+                          child: ListView(
+                            reverse: true,
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              Text(
+                                expression,
+                                style: TextStyle(
+                                    fontSize: size_expression,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                      flex: 2,
                     ),
                     Expanded(
-                        child: Text(
-                      result,
-                      style: TextStyle(
-                          fontSize: size_result, fontWeight: FontWeight.bold),
-                    ))
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                        child: Container(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            result,
+                            style: TextStyle(
+                                fontSize: size_result,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               )),
