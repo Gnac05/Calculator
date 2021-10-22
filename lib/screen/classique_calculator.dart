@@ -139,7 +139,7 @@ class _ClassiqueState extends State<Classique> {
       onPressed: () => changed(text),
       child: Text(
         text,
-        style: TextStyle(color: color, fontSize: text == 'MOD' ? 25 : 35),
+        style: TextStyle(color: color, fontSize: text == 'MOD' ? 30 : 35),
       ),
     );
   }
@@ -324,43 +324,43 @@ class _ClassiqueState extends State<Classique> {
                   Column(
                     children: [
                       Expanded(child: Row(
-                        children:const [
-                          Expanded(child: Placeholder()),
-                          Expanded(child: Placeholder()),
-                          Expanded(child: Placeholder()),
-                          Expanded(child: Placeholder()),
+                        children: [
+                          Expanded(child: ColorText('(',Colors.purple)),
+                          Expanded(child: ColorText(')',Colors.purple)),
+                          Expanded(child: ColorText('√',Colors.purple)),
+                          Expanded(child:  ColorText('π', Colors.purple)),
                         ],
                       )),
                       Expanded(child: Row(
-                        children:const [
-                          Expanded(child: Placeholder()),
-                          Expanded(child: Placeholder()),
-                          Expanded(child: Placeholder()),
-                          Expanded(child: Placeholder()),
+                        children: [
+                          Expanded(child: ColorText('^',Colors.black)),
+                          Expanded(child:ColorText('P',Colors.black)),
+                          Expanded(child: ColorText('C',Colors.black)),
+                          Expanded(child: ColorText('ln',Colors.purple)),
                         ],
                       )),
                       Expanded(child: Row(
-                        children:const [
-                          Expanded(child: Placeholder()),
-                          Expanded(child: Placeholder()),
-                          Expanded(child: Placeholder()),
-                          Expanded(child: Placeholder()),
+                        children: [
+                          Expanded(child: ColorText('cos',Colors.black)),
+                          Expanded(child:ColorText('sin',Colors.black)),
+                          Expanded(child: ColorText('tan',Colors.black)),
+                          Expanded(child: ColorText('log',Colors.purple)),
                         ],
                       )),
                       Expanded(child: Row(
-                        children:const [
-                          Expanded(child: Placeholder()),
-                          Expanded(child: Placeholder()),
-                          Expanded(child: Placeholder()),
-                          Expanded(child: Placeholder()),
+                        children: [
+                          Expanded(child: ColorText('arcos',Colors.black)),
+                          Expanded(child: ColorText('arcsin',Colors.black)),
+                          Expanded(child: ColorText('arctan',Colors.black)),
+                          Expanded(child: ColorText('!',Colors.purple)),
                         ],
                       )),
                       Expanded(child: Row(
-                        children:const [
-                          Expanded(child: Placeholder()),
-                          Expanded(child: Placeholder()),
-                          Expanded(child: Placeholder()),
-                          Expanded(child: Placeholder()),
+                        children: [
+                          Expanded(child: ColorText('ch',Colors.black)),
+                          Expanded(child: ColorText('sh',Colors.black)),
+                          Expanded(child: ColorText('th',Colors.black)),
+                          Expanded(child: ColorText('e',Colors.purple)),
                         ],
                       )),
                     ],
