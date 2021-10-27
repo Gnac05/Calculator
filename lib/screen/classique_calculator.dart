@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gnac_caculator/screen/RSE2I.dart';
 import 'package:math_expressions/math_expressions.dart';
 
 class Classique extends StatefulWidget {
@@ -161,10 +162,24 @@ class _ClassiqueState extends State<Classique> {
       child: Scaffold(
         body: Column(
           children: [
-            const Expanded(
-              flex: 1,
-              child: Placeholder(),
-            ),
+            Expanded(
+                flex: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Resolution()));
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text('RSE2I'),
+                        ))
+                  ],
+                )),
 
             //operation
             Expanded(
@@ -240,7 +255,7 @@ class _ClassiqueState extends State<Classique> {
                           ],
                         ),
                       ),
-            
+
                       // deuxième ligne
                       Expanded(
                         flex: 1,
@@ -253,7 +268,7 @@ class _ClassiqueState extends State<Classique> {
                           ],
                         ),
                       ),
-            
+
                       // troisième ligne
                       Expanded(
                         flex: 1,
@@ -266,7 +281,7 @@ class _ClassiqueState extends State<Classique> {
                           ],
                         ),
                       ),
-                      
+
                       //quatrième et dernière ligne
                       Expanded(
                         flex: 2,
@@ -280,9 +295,11 @@ class _ClassiqueState extends State<Classique> {
                                         child: Row(
                                       children: [
                                         Expanded(
-                                            child: ColorText("1", Colors.black)),
+                                            child:
+                                                ColorText("1", Colors.black)),
                                         Expanded(
-                                            child: ColorText("2", Colors.black)),
+                                            child:
+                                                ColorText("2", Colors.black)),
                                         Expanded(
                                             child: ColorText("3", Colors.black))
                                       ],
@@ -294,7 +311,8 @@ class _ClassiqueState extends State<Classique> {
                                             child:
                                                 ColorText("MOD", Colors.black)),
                                         Expanded(
-                                            child: ColorText("0", Colors.black)),
+                                            child:
+                                                ColorText("0", Colors.black)),
                                         Expanded(
                                             child: ColorText(",", Colors.black))
                                       ],
@@ -319,52 +337,57 @@ class _ClassiqueState extends State<Classique> {
                       )
                     ],
                   ),
-            
+
                   //scientis keyboard
                   Column(
                     children: [
-                      Expanded(child: Row(
+                      Expanded(
+                          child: Row(
                         children: [
-                          Expanded(child: ColorText('(',Colors.purple)),
-                          Expanded(child: ColorText(')',Colors.purple)),
-                          Expanded(child: ColorText('√',Colors.purple)),
-                          Expanded(child:  ColorText('π', Colors.purple)),
+                          Expanded(child: ColorText('(', Colors.purple)),
+                          Expanded(child: ColorText(')', Colors.purple)),
+                          Expanded(child: ColorText('√', Colors.purple)),
+                          Expanded(child: ColorText('π', Colors.purple)),
                         ],
                       )),
-                      Expanded(child: Row(
+                      Expanded(
+                          child: Row(
                         children: [
-                          Expanded(child: ColorText('^',Colors.black)),
-                          Expanded(child:ColorText('P',Colors.black)),
-                          Expanded(child: ColorText('C',Colors.black)),
-                          Expanded(child: ColorText('ln',Colors.purple)),
+                          Expanded(child: ColorText('^', Colors.black)),
+                          Expanded(child: ColorText('P', Colors.black)),
+                          Expanded(child: ColorText('C', Colors.black)),
+                          Expanded(child: ColorText('ln', Colors.purple)),
                         ],
                       )),
-                      Expanded(child: Row(
+                      Expanded(
+                          child: Row(
                         children: [
-                          Expanded(child: ColorText('cos',Colors.black)),
-                          Expanded(child:ColorText('sin',Colors.black)),
-                          Expanded(child: ColorText('tan',Colors.black)),
-                          Expanded(child: ColorText('log',Colors.purple)),
+                          Expanded(child: ColorText('cos', Colors.black)),
+                          Expanded(child: ColorText('sin', Colors.black)),
+                          Expanded(child: ColorText('tan', Colors.black)),
+                          Expanded(child: ColorText('log', Colors.purple)),
                         ],
                       )),
-                      Expanded(child: Row(
+                      Expanded(
+                          child: Row(
                         children: [
-                          Expanded(child: ColorText('arcos',Colors.black)),
-                          Expanded(child: ColorText('arcsin',Colors.black)),
-                          Expanded(child: ColorText('arctan',Colors.black)),
-                          Expanded(child: ColorText('!',Colors.purple)),
+                          Expanded(child: ColorText('arcos', Colors.black)),
+                          Expanded(child: ColorText('arcsin', Colors.black)),
+                          Expanded(child: ColorText('arctan', Colors.black)),
+                          Expanded(child: ColorText('!', Colors.purple)),
                         ],
                       )),
-                      Expanded(child: Row(
+                      Expanded(
+                          child: Row(
                         children: [
-                          Expanded(child: ColorText('ch',Colors.black)),
-                          Expanded(child: ColorText('sh',Colors.black)),
-                          Expanded(child: ColorText('th',Colors.black)),
-                          Expanded(child: ColorText('e',Colors.purple)),
+                          Expanded(child: ColorText('ch', Colors.black)),
+                          Expanded(child: ColorText('sh', Colors.black)),
+                          Expanded(child: ColorText('th', Colors.black)),
+                          Expanded(child: ColorText('e', Colors.purple)),
                         ],
                       )),
                     ],
-                  )    
+                  )
                 ],
               ),
             )
