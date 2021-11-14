@@ -76,12 +76,25 @@ class _ClassiqueState extends State<Classique> {
           }
         case "DEL":
           {
-            expression.length == 1
-                ? expression = '0'
-                : expression = expression.substring(0, expression.length - 1);
-            if (expression.substring(expression.length - 3) == 'MOD') {
-              expression = expression.substring(0, expression.length - 3);
-            }
+            int _length =expression.length;
+           if(_length > 0 || _length ==0) {
+             if (expression.length == 1) {
+              expression = '0';
+            } else {
+              
+             int lengthMOD=expression.length - 3;
+              if (lengthMOD<0) {
+                expression = expression.substring(0, expression.length - 1);
+              } else {
+                 if (expression.substring(lengthMOD) == 'MOD') {
+                   lengthMOD==3 ? expression="0" : expression = expression.substring(0, lengthMOD);
+              } else{
+                expression = expression.substring(0, expression.length - 1);
+              }
+              }
+            }  
+             } 
+            
             break;
           }
         case "=":
@@ -140,7 +153,7 @@ class _ClassiqueState extends State<Classique> {
       onPressed: () => changed(text),
       child: Text(
         text,
-        style: TextStyle(color: color, fontSize: text == 'MOD' ? 30 : 35),
+        style: TextStyle(color: color, fontSize: 30),
       ),
     );
   }
@@ -371,7 +384,7 @@ class _ClassiqueState extends State<Classique> {
                       Expanded(
                           child: Row(
                         children: [
-                          Expanded(child: ColorText('arcos', Colors.black)),
+                          Expanded(child: ColorText('Acos', Colors.black)),
                           Expanded(child: ColorText('arcsin', Colors.black)),
                           Expanded(child: ColorText('arctan', Colors.black)),
                           Expanded(child: ColorText('!', Colors.purple)),
