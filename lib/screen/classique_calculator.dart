@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gnac_caculator/screen/RSE2I.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'dart:math';
+
 
 class Classique extends StatefulWidget {
   const Classique({Key? key}) : super(key: key);
@@ -57,6 +59,30 @@ class _ClassiqueState extends State<Classique> {
     }
   }
 
+  //fonction which allow to supprim a string
+  // supprim(String expression, String word_supprim) {
+  //   int _length = expression.length;
+  //   int length_word = expression.length - word_supprim.length;
+  //   if (_length >= 0) {
+  //     if (expression.length == 1) {
+  //       expression = '0';
+  //     } else {
+
+  //       if (length_word < 0) {
+  //         expression = expression.substring(0, expression.length - 1);
+  //       } else {
+  //         if (expression.substring(length_word) == word_supprim) {
+  //           length_word == 0
+  //               ? expression = "0"
+  //               : expression = expression.substring(0, length_word);
+  //         } else {
+  //           expression = expression.substring(0, expression.length - 1);
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+
 //3 head
   changed(String symbol) {
     setState(() {
@@ -76,25 +102,72 @@ class _ClassiqueState extends State<Classique> {
           }
         case "DEL":
           {
-            int _length =expression.length;
-           if(_length > 0 || _length ==0) {
-             if (expression.length == 1) {
-              expression = '0';
-            } else {
-              
-             int lengthMOD=expression.length - 3;
-              if (lengthMOD<0) {
-                expression = expression.substring(0, expression.length - 1);
-              } else {
-                 if (expression.substring(lengthMOD) == 'MOD') {
-                   lengthMOD==3 ? expression="0" : expression = expression.substring(0, lengthMOD);
-              } else{
-                expression = expression.substring(0, expression.length - 1);
-              }
-              }
-            }  
-             } 
+            int _length = expression.length;
             
+            if (_length > 3 || _length == 3) {
+              String word = expression.substring(_length - 3);
+              switch (word) {
+                case 'MOD':
+                  expression == 'MOD'
+                      ? expression = '0'
+                      : expression = expression.substring(0, _length - 3);
+                  break;
+                case 'ln(':
+                  expression == 'ln('
+                      ? expression = '0'
+                      : expression = expression.substring(0, _length - 3);
+                  break;
+                case 'log':
+                  expression == 'log'
+                      ? expression = '0'
+                      : expression = expression.substring(0, _length - 3);
+                  break;  
+                case 'tan':
+                  expression == 'tan'
+                      ? expression = '0'
+                      : expression = expression.substring(0, _length - 3);
+                  break;    
+                case 'cos':
+                  expression == 'cos'
+                      ? expression = '0'
+                      : expression = expression.substring(0, _length - 3);
+                  break; 
+                case 'sin':
+                  expression == 'sin'
+                      ? expression = '0'
+                      : expression = expression.substring(0, _length - 3);
+                  break;     
+                default:
+                  expression = expression.substring(0, _length - 1);
+              }
+            } else {
+              _length == 1
+                  ? expression = '0'
+                  : expression = expression.substring(0, _length - 1);
+            }
+
+            // if (_length > 0 || _length == 0) {
+            //   if (expression.length == 1) {
+            //     expression = '0';
+            //   } else {
+            //     int lengthMOD = expression.length - 3;
+            //     if (lengthMOD < 0) {
+            //       expression = expression.substring(0, expression.length - 1);
+            //     } else {
+            //       if (expression.substring(lengthMOD) == 'MOD') {
+            //         lengthMOD == 0
+            //             ? expression = "0"
+            //             : expression = expression.substring(0, lengthMOD);
+            //       } else {
+            //         expression = expression.substring(0, expression.length - 1);
+            //       }
+            //     }
+            //   }
+            // }
+
+            // supprim(expression, 'ln(');
+            // supprim(expression, 'log(');
+
             break;
           }
         case "=":
@@ -117,6 +190,21 @@ class _ClassiqueState extends State<Classique> {
 
             break;
           }
+        case "ln":
+          expression == '0' ? expression = 'ln(' : expression += 'ln(';
+          break;
+        case "log":
+          expression == '0' ? expression = 'log(' : expression += 'log(';
+          break;
+        case "cos":
+          expression == '0' ? expression = 'cos(' : expression += 'cos(';
+          break;
+        case "sin":
+          expression == '0' ? expression = 'sin(' : expression += 'sin(';
+          break;
+        case "tan":
+          expression == '0' ? expression = 'tan(' : expression += 'tan(';
+          break;
         default:
           if (expression == "0") {
             if (symbol == ",") {
@@ -132,6 +220,7 @@ class _ClassiqueState extends State<Classique> {
           equation = expression;
           equation = equation.replaceAll(',', '.');
           equation = equation.replaceAll('MOD', '%');
+          equation=equation.replaceAll('π','$pi' );
           try {
             Parser p = Parser();
             Expression exp = p.parse(equation);
@@ -359,17 +448,21 @@ class _ClassiqueState extends State<Classique> {
                         children: [
                           Expanded(child: ColorText('(', Colors.purple)),
                           Expanded(child: ColorText(')', Colors.purple)),
-                          Expanded(child: ColorText('√', Colors.purple)),
-                          Expanded(child: ColorText('π', Colors.purple)),
+                          //Expanded(child: ColorText('√', Colors.purple)),
+                          Expanded(child: ColorText('*', Colors.purple)),
+                          // Expanded(child: ColorText('π', Colors.purple)),
+                          Expanded(child: ColorText('DEL', Colors.purple)),
                         ],
                       )),
                       Expanded(
                           child: Row(
                         children: [
                           Expanded(child: ColorText('^', Colors.black)),
-                          Expanded(child: ColorText('P', Colors.black)),
-                          Expanded(child: ColorText('C', Colors.black)),
-                          Expanded(child: ColorText('ln', Colors.purple)),
+                          // Expanded(child: ColorText('P', Colors.black)),
+                          // Expanded(child: ColorText('C', Colors.black)),
+                          Expanded(child: ColorText('ln', Colors.black)),
+                          Expanded(child: ColorText('log', Colors.black)),
+                          Expanded(child: ColorText('-', Colors.purple)),
                         ],
                       )),
                       Expanded(
@@ -378,25 +471,35 @@ class _ClassiqueState extends State<Classique> {
                           Expanded(child: ColorText('cos', Colors.black)),
                           Expanded(child: ColorText('sin', Colors.black)),
                           Expanded(child: ColorText('tan', Colors.black)),
-                          Expanded(child: ColorText('log', Colors.purple)),
+                          //Expanded(child: ColorText('log', Colors.purple)),
+                          Expanded(child: ColorText('+', Colors.purple)),
                         ],
                       )),
                       Expanded(
                           child: Row(
                         children: [
-                          Expanded(child: ColorText('Acos', Colors.black)),
-                          Expanded(child: ColorText('arcsin', Colors.black)),
-                          Expanded(child: ColorText('arctan', Colors.black)),
-                          Expanded(child: ColorText('!', Colors.purple)),
+                           Expanded(child: ColorText('π', Colors.black)
+                        //  Placeholder()
+                          ),
+                          const Expanded(child: //ColorText('Asin', Colors.black)
+                          Placeholder()),
+                          const Expanded(child: //ColorText('Atan', Colors.black)
+                          Placeholder()),
+                          //Expanded(child: ColorText('!', Colors.purple)),
+                          Expanded(child: ColorText('/', Colors.purple)),
                         ],
                       )),
                       Expanded(
                           child: Row(
                         children: [
-                          Expanded(child: ColorText('ch', Colors.black)),
-                          Expanded(child: ColorText('sh', Colors.black)),
-                          Expanded(child: ColorText('th', Colors.black)),
-                          Expanded(child: ColorText('e', Colors.purple)),
+                          const Expanded(child: //ColorText('ch', Colors.black)
+                          Placeholder()),
+                          const Expanded(child: //ColorText('sh', Colors.black)
+                          Placeholder()),
+                          const Expanded(child: //ColorText('th', Colors.black)
+                          Placeholder()),
+                          //Expanded(child: ColorText('e', Colors.purple)),
+                          Expanded(child: ColorText('AC', Colors.purple)),
                         ],
                       )),
                     ],
