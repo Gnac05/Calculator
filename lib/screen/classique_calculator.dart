@@ -1,11 +1,12 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, unused_element, avoid_print
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gnac_caculator/screen/RSE2I.dart';
+import 'package:gnac_caculator/screen/popupmenu.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'dart:math';
-
+import 'package:fraction/fraction.dart';
 
 class Classique extends StatefulWidget {
   const Classique({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class _ClassiqueState extends State<Classique> {
   String result = "0";
   double size_expression = 45;
   double size_result = 30;
+  bool s_to_d = false;
 
   // Fonctions utils
   //1
@@ -37,12 +39,32 @@ class _ClassiqueState extends State<Classique> {
   }
 
   //2
-  //true : comma is inside
-  //false : comma is not inside
-  bool detector_of_comma(int length, String text) {
+  //true : char is inside
+  //false : char is not inside
+  // bool detector_of_comma(int length, String text) {
+  //   int i = 0;
+  //   int a = text.codeUnits[0];
+  //   while (i < length && a != 44) {
+  //     i += 1;
+  //     if (i == length) {
+  //       break;
+  //     } else {
+  //       a = text.codeUnits[i];
+  //     }
+  //   }
+  //   if (i < length) {
+  //     //print('Il y a une virgule dans $text');
+  //     return true;
+  //   } else {
+  //     //print('Il ny a pas une virgule dans $text');
+  //     return false;
+  //   }
+  // }
+
+  bool detector_of_char(int length, String text, int char_code_ascii) {
     int i = 0;
     int a = text.codeUnits[0];
-    while (i < length && a != 44) {
+    while (i < length && a != char_code_ascii) {
       i += 1;
       if (i == length) {
         break;
@@ -51,10 +73,8 @@ class _ClassiqueState extends State<Classique> {
       }
     }
     if (i < length) {
-      //print('Il y a une virgule dans $text');
       return true;
     } else {
-      //print('Il ny a pas une virgule dans $text');
       return false;
     }
   }
@@ -103,7 +123,7 @@ class _ClassiqueState extends State<Classique> {
         case "DEL":
           {
             int _length = expression.length;
-            
+
             if (_length > 3 || _length == 3) {
               String word = expression.substring(_length - 3);
               switch (word) {
@@ -121,22 +141,27 @@ class _ClassiqueState extends State<Classique> {
                   expression == 'log'
                       ? expression = '0'
                       : expression = expression.substring(0, _length - 3);
-                  break;  
+                  break;
                 case 'tan':
                   expression == 'tan'
                       ? expression = '0'
                       : expression = expression.substring(0, _length - 3);
-                  break;    
+                  break;
                 case 'cos':
                   expression == 'cos'
                       ? expression = '0'
                       : expression = expression.substring(0, _length - 3);
-                  break; 
+                  break;
                 case 'sin':
                   expression == 'sin'
                       ? expression = '0'
                       : expression = expression.substring(0, _length - 3);
-                  break;     
+                  break;
+                case '10^':
+                  expression == '10^'
+                      ? expression = '0'
+                      : expression = expression.substring(0, _length - 3);
+                  break;
                 default:
                   expression = expression.substring(0, _length - 1);
               }
@@ -205,6 +230,9 @@ class _ClassiqueState extends State<Classique> {
         case "tan":
           expression == '0' ? expression = 'tan(' : expression += 'tan(';
           break;
+        case "e":
+          expression == '0' ? expression = 'e^' : expression += 'e^';
+          break;   
         default:
           if (expression == "0") {
             if (symbol == ",") {
@@ -220,7 +248,7 @@ class _ClassiqueState extends State<Classique> {
           equation = expression;
           equation = equation.replaceAll(',', '.');
           equation = equation.replaceAll('MOD', '%');
-          equation=equation.replaceAll('π','$pi' );
+          equation = equation.replaceAll('π', '$pi');
           try {
             Parser p = Parser();
             Expression exp = p.parse(equation);
@@ -235,6 +263,12 @@ class _ClassiqueState extends State<Classique> {
           }
       }
     });
+  }
+
+  _toFraction(String number) {
+    String _number = number.replaceAll(',', '.');
+    double n = double.tryParse(_number)!;
+    return Fraction.fromDouble(n);
   }
 
   Widget ColorText(String text, Color color) {
@@ -267,19 +301,29 @@ class _ClassiqueState extends State<Classique> {
             Expanded(
                 flex: 1,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: s_to_d
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.end,
                   children: [
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Resolution()));
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('RSE2I'),
-                        ))
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Text(s_to_d ? 'S <=> D' : ''),
+                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(right: 10),
+                    //   child: ElevatedButton(
+                    //       onPressed: () {
+                    //         Navigator.push(
+                    //             context,
+                    //             MaterialPageRoute(
+                    //                 builder: (context) => const Resolution()));
+                    //       },
+                    //       child: const Padding(
+                    //         padding: EdgeInsets.all(8.0),
+                    //         child: Text('RSE2I'),
+                    //       )),
+                    // ),
+                   const PopupMenu()
                   ],
                 )),
 
@@ -323,9 +367,15 @@ class _ClassiqueState extends State<Classique> {
                             child: Text(
                               result.codeUnits[0] > 47
                                   ? result.codeUnits[0] < 58
-                                      ? detector_of_comma(result.length, result)
-                                          ? result
-                                          : sequencer(result)
+                                      ? s_to_d
+                                          ? detector_of_char(
+                                                  result.length, result, 44)
+                                              ? '${_toFraction(result)}'
+                                              : sequencer(result)
+                                          : detector_of_char(
+                                                  result.length, result, 44)
+                                              ? result
+                                              : sequencer(result)
                                       : result
                                   : result,
                               style: TextStyle(
@@ -478,13 +528,11 @@ class _ClassiqueState extends State<Classique> {
                       Expanded(
                           child: Row(
                         children: [
-                           Expanded(child: ColorText('π', Colors.black)
-                        //  Placeholder()
-                          ),
-                          const Expanded(child: //ColorText('Asin', Colors.black)
-                          Placeholder()),
-                          const Expanded(child: //ColorText('Atan', Colors.black)
-                          Placeholder()),
+                          Expanded(child: ColorText('π', Colors.black)
+                              //  Placeholder()
+                              ),
+                          Expanded(child: ColorText('10^', Colors.black)),
+                          Expanded(child: ColorText('e', Colors.black)),
                           //Expanded(child: ColorText('!', Colors.purple)),
                           Expanded(child: ColorText('/', Colors.purple)),
                         ],
@@ -492,12 +540,25 @@ class _ClassiqueState extends State<Classique> {
                       Expanded(
                           child: Row(
                         children: [
-                          const Expanded(child: //ColorText('ch', Colors.black)
-                          Placeholder()),
-                          const Expanded(child: //ColorText('sh', Colors.black)
-                          Placeholder()),
-                          const Expanded(child: //ColorText('th', Colors.black)
-                          Placeholder()),
+                          Expanded(
+                              child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    s_to_d = !s_to_d;
+                                  });
+                                },
+                                child: const Text(
+                                  'S <=> D',
+                                  style: TextStyle(fontSize: 14),
+                                )),
+                          )),
+                          const Expanded(child: //ColorText('!', Colors.black)
+                           Placeholder()),
+                          const Expanded(
+                              child: //ColorText('th', Colors.black)
+                                  Placeholder()),
                           //Expanded(child: ColorText('e', Colors.purple)),
                           Expanded(child: ColorText('AC', Colors.purple)),
                         ],

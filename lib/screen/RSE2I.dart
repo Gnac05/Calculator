@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:gnac_caculator/widgets/rse2i.dart';
+import 'package:gnac_caculator/widgets/textfield.dart';
 
 class Resolution extends StatefulWidget {
   const Resolution({Key? key}) : super(key: key);
@@ -62,51 +64,27 @@ class _ResolutionState extends State<Resolution> {
                   const SizedBox(
                     height: 30,
                   ),
-                  TextField(
-                    controller: A,
-                    decoration: const InputDecoration(hintText: 'Entrez a'),
-                    keyboardType: TextInputType.number,
-                  ),
+                  CustomTextFieldNumber(text: 'Entrez a', controller_: A),
                   const SizedBox(
                     height: 10,
                   ),
-                  TextField(
-                    controller: B,
-                    decoration: const InputDecoration(hintText: 'Entrez b'),
-                    keyboardType: TextInputType.number,
-                  ),
+                  CustomTextFieldNumber(text: 'Entrez b', controller_: B),
                   const SizedBox(
                     height: 10,
                   ),
-                  TextField(
-                    controller: C,
-                    decoration: const InputDecoration(hintText: 'Entrez c'),
-                    keyboardType: TextInputType.number,
-                  ),
+                  CustomTextFieldNumber(text: 'Entrez c', controller_: C),
                   const SizedBox(
                     height: 10,
                   ),
-                  TextField(
-                    controller: D,
-                    decoration: const InputDecoration(hintText: 'Entrez d'),
-                    keyboardType: TextInputType.number,
-                  ),
+                  CustomTextFieldNumber(text: 'Entrez d', controller_: D),
                   const SizedBox(
                     height: 10,
                   ),
-                  TextField(
-                    controller: E,
-                    decoration: const InputDecoration(hintText: 'Entrez e'),
-                    keyboardType: TextInputType.number,
-                  ),
+                  CustomTextFieldNumber(text: 'Entrez e', controller_: E),
                   const SizedBox(
                     height: 10,
                   ),
-                  TextField(
-                    controller: F,
-                    decoration: const InputDecoration(hintText: 'Entrez f'),
-                    keyboardType: TextInputType.number,
-                  ),
+                  CustomTextFieldNumber(text: 'Entrez f', controller_: F),
                   const SizedBox(
                     height: 10,
                   ),
@@ -128,24 +106,3 @@ class _ResolutionState extends State<Resolution> {
     );
   }
 }
-
- Widget solution(double a,double b,double c,double d,double e,double f) {
-    return Scaffold(
-      appBar: AppBar(title:const Text('Solution'),),
-      body: Center(
-        child: Column(
-          children: [
-          const  SizedBox(height: 20,),
-           const Text('Le systeme suivant', style: TextStyle(fontSize: 20)),
-              Text('|${a}x + ${b}y = $c', style:const TextStyle(fontSize: 20)),
-              Text('|${d}x + ${e}y = $f', style:const TextStyle(fontSize: 20)),
-              const SizedBox(height: 20,),
-            const  Text("A pour solutions ", style: TextStyle(fontSize: 20)),const SizedBox(height: 20,),
-                   Text('x = ${(c*e-b*f)/(a*e-b*d)}', style:const TextStyle(fontSize: 20)),
-            const SizedBox(height: 10,),
-                   Text('y = ${(a*f-d*c)/(a*e-b*d)}', style:const TextStyle(fontSize: 20))
-          ],
-        ),
-      ),
-    );
-  }
