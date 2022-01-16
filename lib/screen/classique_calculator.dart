@@ -1,8 +1,10 @@
-// ignore_for_file: non_constant_identifier_names, unused_element, avoid_print
+// ignore_for_file: non_constant_identifier_names, unused_element, avoid_print, prefer_is_empty
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gnac_caculator/screen/RSE2I.dart';
+import 'package:gnac_caculator/data/colors_app.dart';
+import 'package:gnac_caculator/model/calcul.dart';
+import 'package:gnac_caculator/model/dtb_calcul.dart';
 import 'package:gnac_caculator/screen/popupmenu.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'dart:math';
@@ -14,6 +16,8 @@ class Classique extends StatefulWidget {
   @override
   _ClassiqueState createState() => _ClassiqueState();
 }
+
+List<Calcul> calculs = [];
 
 class _ClassiqueState extends State<Classique> {
   String expression = "0";
@@ -122,6 +126,11 @@ class _ClassiqueState extends State<Classique> {
           }
         case "DEL":
           {
+            if (expression == 'ERROR' ||
+                expression == 'Infinity' ||
+                expression == 'NaN') {
+              expression = '0';
+            }
             int _length = expression.length;
 
             if (_length > 3 || _length == 3) {
@@ -137,25 +146,25 @@ class _ClassiqueState extends State<Classique> {
                       ? expression = '0'
                       : expression = expression.substring(0, _length - 3);
                   break;
-                case 'log':
-                  expression == 'log'
+                case 'og(':
+                  expression == 'log('
                       ? expression = '0'
-                      : expression = expression.substring(0, _length - 3);
+                      : expression = expression.substring(0, _length - 4);
                   break;
-                case 'tan':
-                  expression == 'tan'
+                case 'an(':
+                  expression == 'tan('
                       ? expression = '0'
-                      : expression = expression.substring(0, _length - 3);
+                      : expression = expression.substring(0, _length - 4);
                   break;
-                case 'cos':
-                  expression == 'cos'
+                case 'os(':
+                  expression == 'cos('
                       ? expression = '0'
-                      : expression = expression.substring(0, _length - 3);
+                      : expression = expression.substring(0, _length - 4);
                   break;
-                case 'sin':
-                  expression == 'sin'
+                case 'in(':
+                  expression == 'sin('
                       ? expression = '0'
-                      : expression = expression.substring(0, _length - 3);
+                      : expression = expression.substring(0, _length - 4);
                   break;
                 case '10^':
                   expression == '10^'
@@ -171,6 +180,23 @@ class _ClassiqueState extends State<Classique> {
                   : expression = expression.substring(0, _length - 1);
             }
 
+            String equation = '';
+            equation = expression;
+            equation = equation.replaceAll(',', '.');
+            equation = equation.replaceAll('MOD', '%');
+            equation = equation.replaceAll('π', '$pi');
+            try {
+              Parser p = Parser();
+              Expression exp = p.parse(equation);
+              ContextModel cm = ContextModel();
+              result = '${exp.evaluate(EvaluationType.REAL, cm)}';
+              result = result.replaceAll('.', ',');
+            } catch (e) {
+              result = "...";
+            }
+            if (result.substring(result.length - 2) == ',0') {
+              result = result.substring(0, result.length - 2);
+            }
             // if (_length > 0 || _length == 0) {
             //   if (expression.length == 1) {
             //     expression = '0';
@@ -200,6 +226,9 @@ class _ClassiqueState extends State<Classique> {
             String equation = '';
             equation = expression;
             equation = equation.replaceAll(',', '.');
+            equation = equation.replaceAll('π', '$pi');
+            equation = equation.replaceAll('MOD', '%');
+            equation = equation.replaceAll('√', 'sqrt');
             try {
               Parser p = Parser();
               Expression exp = p.parse(equation);
@@ -213,13 +242,28 @@ class _ClassiqueState extends State<Classique> {
               result = result.substring(0, result.length - 2);
             }
 
+            if (expression != '0' &&
+                result != expression &&
+                (calculs.length == 0 ||
+                    expression != calculs[calculs.length - 1].expression)) {
+              Map<String, dynamic> map = {
+                'expression': expression,
+                'result': result,
+                'date': date(DateTime.now().toString().substring(0, 10))
+              };
+              Calcul calcul = Calcul();
+              calcul.fromMap(map);
+              DatabaseCalcul().addCalcul(calcul).then((value) => recover());
+            }
+            expression = result;
+
             break;
           }
         case "ln":
           expression == '0' ? expression = 'ln(' : expression += 'ln(';
           break;
-        case "log":
-          expression == '0' ? expression = 'log(' : expression += 'log(';
+        case "√":
+          expression == '0' ? expression = '√(' : expression += '√(';
           break;
         case "cos":
           expression == '0' ? expression = 'cos(' : expression += 'cos(';
@@ -232,7 +276,7 @@ class _ClassiqueState extends State<Classique> {
           break;
         case "e":
           expression == '0' ? expression = 'e^' : expression += 'e^';
-          break;   
+          break;
         default:
           if (expression == "0") {
             if (symbol == ",") {
@@ -249,6 +293,7 @@ class _ClassiqueState extends State<Classique> {
           equation = equation.replaceAll(',', '.');
           equation = equation.replaceAll('MOD', '%');
           equation = equation.replaceAll('π', '$pi');
+          equation = equation.replaceAll('√', 'sqrt');
           try {
             Parser p = Parser();
             Expression exp = p.parse(equation);
@@ -276,7 +321,7 @@ class _ClassiqueState extends State<Classique> {
       onPressed: () => changed(text),
       child: Text(
         text,
-        style: TextStyle(color: color, fontSize: 30),
+        style: TextStyle(color: color, fontSize: (text == 'MOD') ? 28 : 30),
       ),
     );
   }
@@ -323,7 +368,7 @@ class _ClassiqueState extends State<Classique> {
                     //         child: Text('RSE2I'),
                     //       )),
                     // ),
-                   const PopupMenu()
+                    const PopupMenu()
                   ],
                 )),
 
@@ -335,10 +380,11 @@ class _ClassiqueState extends State<Classique> {
                   child: Column(
                     children: [
                       Expanded(
+                        flex: 5,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            height: 100,
+                            //height: 300,
                             alignment: Alignment.centerRight,
                             child: ListView(
                               reverse: true,
@@ -346,8 +392,8 @@ class _ClassiqueState extends State<Classique> {
                               children: [
                                 Padding(
                                   padding:
-                                      const EdgeInsets.symmetric(vertical: 28),
-                                  child: Text(
+                                      const EdgeInsets.symmetric(vertical: 30),
+                                  child: SelectableText(
                                     expression,
                                     style: TextStyle(
                                         fontSize: size_expression,
@@ -360,24 +406,27 @@ class _ClassiqueState extends State<Classique> {
                         ),
                       ),
                       Expanded(
+                        flex: 4,
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
                           child: Container(
                             alignment: Alignment.centerRight,
-                            child: Text(
-                              result.codeUnits[0] > 47
-                                  ? result.codeUnits[0] < 58
-                                      ? s_to_d
-                                          ? detector_of_char(
-                                                  result.length, result, 44)
-                                              ? '${_toFraction(result)}'
-                                              : sequencer(result)
-                                          : detector_of_char(
-                                                  result.length, result, 44)
-                                              ? result
-                                              : sequencer(result)
-                                      : result
-                                  : result,
+                            child: SelectableText(
+                              result == ''
+                                  ? result
+                                  : result.codeUnits[0] > 47
+                                      ? result.codeUnits[0] < 58
+                                          ? s_to_d
+                                              ? detector_of_char(
+                                                      result.length, result, 44)
+                                                  ? '${_toFraction(result)}'
+                                                  : sequencer(result)
+                                              : detector_of_char(
+                                                      result.length, result, 44)
+                                                  ? result
+                                                  : sequencer(result)
+                                          : result
+                                      : result,
                               style: TextStyle(
                                   fontSize: size_result,
                                   fontWeight: FontWeight.bold),
@@ -400,10 +449,10 @@ class _ClassiqueState extends State<Classique> {
                         flex: 1,
                         child: Row(
                           children: [
-                            Expanded(child: ColorText("AC", Colors.purple)),
-                            Expanded(child: ColorText("/", Colors.purple)),
-                            Expanded(child: ColorText("*", Colors.purple)),
-                            Expanded(child: ColorText("DEL", Colors.purple))
+                            Expanded(child: ColorText("AC", ePcolor)),
+                            Expanded(child: ColorText("/", ePcolor)),
+                            Expanded(child: ColorText("*", ePcolor)),
+                            Expanded(child: ColorText("DEL", ePcolor))
                           ],
                         ),
                       ),
@@ -416,7 +465,7 @@ class _ClassiqueState extends State<Classique> {
                             Expanded(child: ColorText("7", Colors.black)),
                             Expanded(child: ColorText("8", Colors.black)),
                             Expanded(child: ColorText("9", Colors.black)),
-                            Expanded(child: ColorText("-", Colors.purple)),
+                            Expanded(child: ColorText("-", ePcolor)),
                           ],
                         ),
                       ),
@@ -429,7 +478,7 @@ class _ClassiqueState extends State<Classique> {
                             Expanded(child: ColorText("4", Colors.black)),
                             Expanded(child: ColorText("5", Colors.black)),
                             Expanded(child: ColorText("6", Colors.black)),
-                            Expanded(child: ColorText("+", Colors.purple)),
+                            Expanded(child: ColorText("+", ePcolor)),
                           ],
                         ),
                       ),
@@ -477,10 +526,10 @@ class _ClassiqueState extends State<Classique> {
                               child: Container(
                                 height: 100,
                                 width: 40,
-                                decoration: const BoxDecoration(
-                                    color: Colors.purple,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15))),
+                                decoration: BoxDecoration(
+                                    color: ePcolor,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(15))),
                                 child: ColorText("=", Colors.white),
                               ),
                             )),
@@ -496,12 +545,12 @@ class _ClassiqueState extends State<Classique> {
                       Expanded(
                           child: Row(
                         children: [
-                          Expanded(child: ColorText('(', Colors.purple)),
-                          Expanded(child: ColorText(')', Colors.purple)),
-                          //Expanded(child: ColorText('√', Colors.purple)),
-                          Expanded(child: ColorText('*', Colors.purple)),
-                          // Expanded(child: ColorText('π', Colors.purple)),
-                          Expanded(child: ColorText('DEL', Colors.purple)),
+                          Expanded(child: ColorText('(', ePcolor)),
+                          Expanded(child: ColorText(')', ePcolor)),
+                          //Expanded(child: ColorText('√', ePcolor)),
+                          Expanded(child: ColorText('*', ePcolor)),
+                          // Expanded(child: ColorText('π', ePcolor)),
+                          Expanded(child: ColorText('DEL', ePcolor)),
                         ],
                       )),
                       Expanded(
@@ -511,8 +560,8 @@ class _ClassiqueState extends State<Classique> {
                           // Expanded(child: ColorText('P', Colors.black)),
                           // Expanded(child: ColorText('C', Colors.black)),
                           Expanded(child: ColorText('ln', Colors.black)),
-                          Expanded(child: ColorText('log', Colors.black)),
-                          Expanded(child: ColorText('-', Colors.purple)),
+                          Expanded(child: ColorText('√', Colors.black)),
+                          Expanded(child: ColorText('-', ePcolor)),
                         ],
                       )),
                       Expanded(
@@ -521,48 +570,72 @@ class _ClassiqueState extends State<Classique> {
                           Expanded(child: ColorText('cos', Colors.black)),
                           Expanded(child: ColorText('sin', Colors.black)),
                           Expanded(child: ColorText('tan', Colors.black)),
-                          //Expanded(child: ColorText('log', Colors.purple)),
-                          Expanded(child: ColorText('+', Colors.purple)),
+                          Expanded(child: ColorText('+', ePcolor)),
                         ],
                       )),
                       Expanded(
-                          child: Row(
-                        children: [
-                          Expanded(child: ColorText('π', Colors.black)
-                              //  Placeholder()
-                              ),
-                          Expanded(child: ColorText('10^', Colors.black)),
-                          Expanded(child: ColorText('e', Colors.black)),
-                          //Expanded(child: ColorText('!', Colors.purple)),
-                          Expanded(child: ColorText('/', Colors.purple)),
-                        ],
-                      )),
-                      Expanded(
-                          child: Row(
-                        children: [
-                          Expanded(
-                              child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    s_to_d = !s_to_d;
-                                  });
-                                },
-                                child: const Text(
-                                  'S <=> D',
-                                  style: TextStyle(fontSize: 14),
+                        flex: 2,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex: 3,
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                        child: Row(
+                                      children: [
+                                        Expanded(
+                                            child:
+                                                ColorText('10^', Colors.black)),
+                                        Expanded(
+                                            child:
+                                                ColorText('e', Colors.black)),
+                                        Expanded(
+                                            child: ColorText('/', ePcolor)),
+                                      ],
+                                    )),
+                                    Expanded(
+                                        child: Row(
+                                      children: [
+                                        Expanded(
+                                            child:
+                                                ColorText("π", Colors.black)),
+                                        Expanded(
+                                            child: Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: ElevatedButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  s_to_d = !s_to_d;
+                                                });
+                                              },
+                                              child: const Text(
+                                                'S <=> D',
+                                                style: TextStyle(fontSize: 13),
+                                              )),
+                                        )),
+                                        Expanded(
+                                            child: ColorText("AC", ePcolor))
+                                      ],
+                                    ))
+                                  ],
                                 )),
-                          )),
-                          const Expanded(child: //ColorText('!', Colors.black)
-                           Placeholder()),
-                          const Expanded(
-                              child: //ColorText('th', Colors.black)
-                                  Placeholder()),
-                          //Expanded(child: ColorText('e', Colors.purple)),
-                          Expanded(child: ColorText('AC', Colors.purple)),
-                        ],
-                      )),
+                            Expanded(
+                                child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                height: 100,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                    color: ePcolor,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(15))),
+                                child: ColorText("=", Colors.white),
+                              ),
+                            )),
+                          ],
+                        ),
+                      )
                     ],
                   )
                 ],
@@ -572,6 +645,14 @@ class _ClassiqueState extends State<Classique> {
         ),
       ),
     );
+  }
+
+  void recover() {
+    DatabaseCalcul().allCalcul().then((value) {
+      setState(() {
+        calculs = value;
+      });
+    });
   }
 }
 
@@ -598,3 +679,53 @@ class _ClassiqueState extends State<Classique> {
 //     );
 //   }
 // }
+
+//Cette fonction permet de connaitre la date sous le format jour mois année
+//elle prend en paramètre la date sous le format AAAA-MM-JJ
+String date(String dateTime) {
+  //dateTime = 2021-12-27
+  String ans = dateTime.substring(0, 4); //2021
+  String month = dateTime.substring(5, 7); //12
+  String day = dateTime.substring(8); //27
+
+  switch (month) {
+    case '01':
+      month = 'Janvier';
+      break;
+    case '02':
+      month = 'Février';
+      break;
+    case '03':
+      month = 'Mars';
+      break;
+    case '04':
+      month = 'Avril';
+      break;
+    case '05':
+      month = 'Mai';
+      break;
+    case '06':
+      month = 'Juin';
+      break;
+    case '07':
+      month = 'Juillet';
+      break;
+    case '08':
+      month = 'Août';
+      break;
+    case '09':
+      month = 'Septembre';
+      break;
+    case '10':
+      month = 'Octobre';
+      break;
+    case '11':
+      month = 'Novembre';
+      break;
+    default:
+      month = 'Décembre';
+  }
+  String _date;
+  _date = '$day $month $ans';
+  return _date;
+}
