@@ -129,24 +129,20 @@ class _EquationState extends State<Equation> {
                               height: 200,
                               child: ListView(
                                 children: [
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        Center(
-                                          child: SelectableText(
-                                            '${a == 1 ? '' : a > 0 ? '${Fraction.fromDouble(a)}' : '(${Fraction.fromDouble(a)})'}x² ${b == 0 ? ' ' : b == 1 ? ' + x' : b > 0 ? ' + ${Fraction.fromDouble(b)}x' : ' - ${Fraction.fromDouble(b).toString().substring(1)}x'} ${c == 0 ? '' : c > 0 ? '+ ${Fraction.fromDouble(c)}' : ' - ${Fraction.fromDouble(c).toString().substring(1)}'} = 0 \nOn a delta = b²-4ac \nsoit delta = (${pow(b, 2) - 4 * a * c}) \n${signeDelta(pow(b, 2) - 4 * a * c, a, b)}',
-                                            style:
-                                                const TextStyle(fontSize: 20),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                        ElevatedButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text('OK'))
-                                      ],
+                                  Center(
+                                    child: SelectableText(
+                                      '${a == 1 ? '' : a > 0 ? '${Fraction.fromDouble(a)}' : '(${Fraction.fromDouble(a)})'}x² ${b == 0 ? ' ' : b == 1 ? ' + x' : b > 0 ? ' + ${Fraction.fromDouble(b)}x' : ' - ${Fraction.fromDouble(b).toString().substring(1)}x'} ${c == 0 ? '' : c > 0 ? '+ ${Fraction.fromDouble(c)}' : ' - ${Fraction.fromDouble(c).toString().substring(1)}'} = 0 \nOn a delta = b²-4ac \nsoit delta = (${pow(b, 2) - 4 * a * c}) \n${signeDelta(pow(b, 2) - 4 * a * c, a, b)}',
+                                      style:
+                                          const TextStyle(fontSize: 20),
+                                      textAlign: TextAlign.center,
                                     ),
+                                  ),
+                                  Center(
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('OK')),
                                   ),
                                 ],
                               ),

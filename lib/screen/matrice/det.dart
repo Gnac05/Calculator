@@ -266,7 +266,7 @@ Widget ForMat2x2(BuildContext context) {
     body: Column(
       children: [
         Expanded(
-          flex: 4,
+          flex: 2,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -299,7 +299,7 @@ Widget ForMat2x2(BuildContext context) {
                           child: CustomTextFieldNumber(
                               text: 'a2', controller_: A2)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
@@ -311,12 +311,8 @@ Widget ForMat2x2(BuildContext context) {
             ),
           ),
         ),
-        const Expanded(
-          child: Text(''),
-        ),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 75),
+          child: Center(
             child: ElevatedButton(
                 onPressed: () async {
                   if (A1.text != '' &&
@@ -341,8 +337,8 @@ Widget ForMat2x2(BuildContext context) {
                   style: TextStyle(fontSize: 20),
                 )),
           ),
-          flex: 2,
-        )
+          flex: 3,
+        ),
       ],
     ),
   );
@@ -361,7 +357,7 @@ Widget ForMat3x3(BuildContext context) {
     body: Column(
       children: [
         Expanded(
-          flex: 4,
+          flex: 1,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -400,13 +396,13 @@ Widget ForMat3x3(BuildContext context) {
                           child: CustomTextFieldNumber(
                               text: 'a2', controller_: A2)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
                               text: 'b2', controller_: B2)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
@@ -424,13 +420,13 @@ Widget ForMat3x3(BuildContext context) {
                           child: CustomTextFieldNumber(
                               text: 'a3', controller_: A3)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
                               text: 'b3', controller_: B3)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
@@ -442,12 +438,9 @@ Widget ForMat3x3(BuildContext context) {
             ),
           ),
         ),
-        const Expanded(
-          child: Text(''),
-        ),
+        
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 75),
+          child: Center(
             child: ElevatedButton(
                 onPressed: () {
                   if (A1.text != '' &&
@@ -477,8 +470,7 @@ Widget ForMat3x3(BuildContext context) {
                   style: TextStyle(fontSize: 20),
                 )),
           ),
-          flex: 2,
-        )
+        ),
       ],
     ),
   );
@@ -497,7 +489,7 @@ Widget ForMat4x4(BuildContext context) {
     body: Column(
       children: [
         Expanded(
-          flex: 4,
+          flex: 2,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -542,13 +534,13 @@ Widget ForMat4x4(BuildContext context) {
                           child: CustomTextFieldNumber(
                               text: 'a2', controller_: A2)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
                               text: 'b2', controller_: B2)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
@@ -572,13 +564,13 @@ Widget ForMat4x4(BuildContext context) {
                           child: CustomTextFieldNumber(
                               text: 'a3', controller_: A3)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
                               text: 'b3', controller_: B3)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
@@ -602,13 +594,13 @@ Widget ForMat4x4(BuildContext context) {
                           child: CustomTextFieldNumber(
                               text: 'a4', controller_: A4)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
                               text: 'b4', controller_: B4)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
@@ -626,12 +618,9 @@ Widget ForMat4x4(BuildContext context) {
             ),
           ),
         ),
-        const Expanded(
-          child: Text(''),
-        ),
+        
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 75),
+          child: Center(
             child: ElevatedButton(
                 onPressed: () {
                   if (A1.text != '' &&
@@ -668,8 +657,7 @@ Widget ForMat4x4(BuildContext context) {
                   style: TextStyle(fontSize: 20),
                 )),
           ),
-          flex: 2,
-        )
+        ),
       ],
     ),
   );
@@ -739,13 +727,13 @@ Widget ForMat5x5(BuildContext context) {
                           child: CustomTextFieldNumber(
                               text: 'a2', controller_: A2)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
                               text: 'b2', controller_: B2)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
@@ -775,13 +763,13 @@ Widget ForMat5x5(BuildContext context) {
                           child: CustomTextFieldNumber(
                               text: 'a3', controller_: A3)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
                               text: 'b3', controller_: B3)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
@@ -811,13 +799,13 @@ Widget ForMat5x5(BuildContext context) {
                           child: CustomTextFieldNumber(
                               text: 'a4', controller_: A4)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
                               text: 'b4', controller_: B4)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
@@ -847,13 +835,13 @@ Widget ForMat5x5(BuildContext context) {
                           child: CustomTextFieldNumber(
                               text: 'a5', controller_: A5)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
                               text: 'b5', controller_: B5)),
                       const SizedBox(
-                        width: 5,
+                        width: 10,
                       ),
                       Expanded(
                           child: CustomTextFieldNumber(
@@ -877,12 +865,9 @@ Widget ForMat5x5(BuildContext context) {
             ),
           ),
         ),
-        const Expanded(
-          child: Text(''),
-        ),
+        
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 60),
+          child: Center(
             child: ElevatedButton(
                 onPressed: () {
                   if (A1.text != '' &&
@@ -929,8 +914,8 @@ Widget ForMat5x5(BuildContext context) {
                   style: TextStyle(fontSize: 20),
                 )),
           ),
-          flex: 2,
-        )
+        ),
+        
       ],
     ),
   );

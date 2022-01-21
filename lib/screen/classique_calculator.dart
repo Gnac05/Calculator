@@ -229,6 +229,8 @@ class _ClassiqueState extends State<Classique> {
             equation = equation.replaceAll('π', '$pi');
             equation = equation.replaceAll('MOD', '%');
             equation = equation.replaceAll('√', 'sqrt');
+            equation = equation.replaceAll('÷', '/');
+            equation = equation.replaceAll('x', '*');
             try {
               Parser p = Parser();
               Expression exp = p.parse(equation);
@@ -294,6 +296,9 @@ class _ClassiqueState extends State<Classique> {
           equation = equation.replaceAll('MOD', '%');
           equation = equation.replaceAll('π', '$pi');
           equation = equation.replaceAll('√', 'sqrt');
+          equation = equation.replaceAll('x', '*');
+          equation = equation.replaceAll('÷', '/');
+
           try {
             Parser p = Parser();
             Expression exp = p.parse(equation);
@@ -321,7 +326,7 @@ class _ClassiqueState extends State<Classique> {
       onPressed: () => changed(text),
       child: Text(
         text,
-        style: TextStyle(color: color, fontSize: (text == 'MOD') ? 28 : 30),
+        style: TextStyle(color: color, fontSize: (text == 'MOD') ? 25 : 30),
       ),
     );
   }
@@ -392,7 +397,7 @@ class _ClassiqueState extends State<Classique> {
                               children: [
                                 Padding(
                                   padding:
-                                      const EdgeInsets.symmetric(vertical: 30),
+                                      const EdgeInsets.symmetric(vertical: 25),
                                   child: SelectableText(
                                     expression,
                                     style: TextStyle(
@@ -450,8 +455,8 @@ class _ClassiqueState extends State<Classique> {
                         child: Row(
                           children: [
                             Expanded(child: ColorText("AC", ePcolor)),
-                            Expanded(child: ColorText("/", ePcolor)),
-                            Expanded(child: ColorText("*", ePcolor)),
+                            Expanded(child: ColorText("÷", ePcolor)),
+                            Expanded(child: ColorText("x", ePcolor)),
                             Expanded(child: ColorText("DEL", ePcolor))
                           ],
                         ),
@@ -548,7 +553,7 @@ class _ClassiqueState extends State<Classique> {
                           Expanded(child: ColorText('(', ePcolor)),
                           Expanded(child: ColorText(')', ePcolor)),
                           //Expanded(child: ColorText('√', ePcolor)),
-                          Expanded(child: ColorText('*', ePcolor)),
+                          Expanded(child: ColorText('x', ePcolor)),
                           // Expanded(child: ColorText('π', ePcolor)),
                           Expanded(child: ColorText('DEL', ePcolor)),
                         ],
@@ -591,7 +596,7 @@ class _ClassiqueState extends State<Classique> {
                                             child:
                                                 ColorText('e', Colors.black)),
                                         Expanded(
-                                            child: ColorText('/', ePcolor)),
+                                            child: ColorText('÷', ePcolor)),
                                       ],
                                     )),
                                     Expanded(
@@ -611,7 +616,7 @@ class _ClassiqueState extends State<Classique> {
                                               },
                                               child: const Text(
                                                 'S <=> D',
-                                                style: TextStyle(fontSize: 13),
+                                                style: TextStyle(fontSize: 12),
                                               )),
                                         )),
                                         Expanded(
