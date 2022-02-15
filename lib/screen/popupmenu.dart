@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gnac_caculator/screen/apropos.dart';
 import 'package:gnac_caculator/screen/historique.dart';
 import 'package:gnac_caculator/screen/matrice/matrice.dart';
-//import 'package:gnac_caculator/screen/to_dev_page.dart';
 import 'package:gnac_caculator/widgets/popup.dart';
 import 'RSENI.dart';
 import 'equation.dart';
@@ -26,7 +25,7 @@ class PopupMenu extends StatelessWidget {
                 text: 'Système d\'équations', widget: Resolution())),
         const PopupMenuItem(
             child: PopupWidget(text: 'A Propos', widget: APropos())),
-        // const PopupMenuItem(child: PopupWidget(text: 'Auto Code', widget: Choix()))
+      //  const PopupMenuItem(child: PopupWidget(text: 'Auto Code', widget: Choix()))
       ],
     );
   }

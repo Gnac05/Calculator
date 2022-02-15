@@ -25,6 +25,9 @@ class _ClassiqueState extends State<Classique> {
   double size_expression = 45;
   double size_result = 30;
   bool s_to_d = false;
+  bool cursor = false;
+  int positionCursorStart = 0;
+  int positionCursorEnd = 1;
 
   // Fonctions utils
   //1
@@ -122,6 +125,9 @@ class _ClassiqueState extends State<Classique> {
           {
             expression = "0";
             result = "0";
+            cursor = false;
+  positionCursorStart = 0;
+  positionCursorEnd = 1;
             break;
           }
         case "DEL":
@@ -262,7 +268,16 @@ class _ClassiqueState extends State<Classique> {
             break;
           }
         case "ln":
-          expression == '0' ? expression = 'ln(' : expression += 'ln(';
+          if (positionCursorEnd == positionCursorStart) {
+            String start = expression.substring(0, positionCursorStart);
+            String end = expression.substring(positionCursorEnd);
+            expression = start + 'ln(' + end;
+            positionCursorEnd=positionCursorEnd+3;
+            positionCursorStart=positionCursorStart+3;
+
+          } else {
+            expression == '0' ? expression = 'ln(' : expression += 'ln(';
+          }
           break;
         case "√":
           expression == '0' ? expression = '√(' : expression += '√(';
@@ -324,9 +339,11 @@ class _ClassiqueState extends State<Classique> {
   Widget ColorText(String text, Color color) {
     return TextButton(
       onPressed: () => changed(text),
-      child: Text(
-        text,
-        style: TextStyle(color: color, fontSize: (text == 'MOD') ? 25 : 30),
+      child: FittedBox(
+        child: Text(
+          text,
+          style: TextStyle(color: color, fontSize: 30),
+        ),
       ),
     );
   }
@@ -397,12 +414,34 @@ class _ClassiqueState extends State<Classique> {
                               children: [
                                 Padding(
                                   padding:
-                                      const EdgeInsets.symmetric(vertical: 25),
-                                  child: SelectableText(
-                                    expression,
-                                    style: TextStyle(
-                                        fontSize: size_expression,
-                                        fontWeight: FontWeight.bold),
+                                      const EdgeInsets.symmetric(vertical: 20),
+                                  child: TextSelectionTheme(
+                                    data: TextSelectionThemeData(
+                                        selectionColor: ePcolor,
+                                        cursorColor: ePcolor),
+                                    child: SelectableText(
+                                      expression,
+                                      showCursor: cursor,
+                                      onTap: (){
+                                        setState(() {
+                                          cursor=true;
+                                        });
+                                      },
+                                      onSelectionChanged:
+                                          (textSelection, cause) {
+                                        print('Début ${textSelection.start}');
+                                        print('fin ${textSelection.end}');
+                                        setState(() {
+                                          positionCursorStart =
+                                              textSelection.start;
+                                          positionCursorEnd = textSelection.end;
+                                        });
+                                        
+                                      },
+                                      style: TextStyle(
+                                          fontSize: size_expression,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -413,28 +452,34 @@ class _ClassiqueState extends State<Classique> {
                       Expanded(
                         flex: 4,
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                           child: Container(
                             alignment: Alignment.centerRight,
-                            child: SelectableText(
-                              result == ''
-                                  ? result
-                                  : result.codeUnits[0] > 47
-                                      ? result.codeUnits[0] < 58
-                                          ? s_to_d
-                                              ? detector_of_char(
-                                                      result.length, result, 44)
-                                                  ? '${_toFraction(result)}'
-                                                  : sequencer(result)
-                                              : detector_of_char(
-                                                      result.length, result, 44)
-                                                  ? result
-                                                  : sequencer(result)
-                                          : result
-                                      : result,
-                              style: TextStyle(
-                                  fontSize: size_result,
-                                  fontWeight: FontWeight.bold),
+                            child: FittedBox(
+                              child: SelectableText(
+                                result == ''
+                                    ? result
+                                    : result.codeUnits[0] > 47
+                                        ? result.codeUnits[0] < 58
+                                            ? s_to_d
+                                                ? detector_of_char(
+                                                        result.length,
+                                                        result,
+                                                        44)
+                                                    ? '${_toFraction(result)}'
+                                                    : sequencer(result)
+                                                : detector_of_char(
+                                                        result.length,
+                                                        result,
+                                                        44)
+                                                    ? result
+                                                    : sequencer(result)
+                                            : result
+                                        : result,
+                                style: TextStyle(
+                                    fontSize: size_result,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ),
                         ),
@@ -514,8 +559,9 @@ class _ClassiqueState extends State<Classique> {
                                         child: Row(
                                       children: [
                                         Expanded(
-                                            child:
-                                                ColorText("MOD", Colors.black)),
+                                            child: FittedBox(
+                                                child: ColorText(
+                                                    "MOD", Colors.black))),
                                         Expanded(
                                             child:
                                                 ColorText("0", Colors.black)),
@@ -614,9 +660,12 @@ class _ClassiqueState extends State<Classique> {
                                                   s_to_d = !s_to_d;
                                                 });
                                               },
-                                              child: const Text(
-                                                'S <=> D',
-                                                style: TextStyle(fontSize: 12),
+                                              child: FittedBox(
+                                                child: const Text(
+                                                  'S <=> D',
+                                                  style:
+                                                      TextStyle(fontSize: 15),
+                                                ),
                                               )),
                                         )),
                                         Expanded(

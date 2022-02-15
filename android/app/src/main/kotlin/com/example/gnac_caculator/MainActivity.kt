@@ -1,4 +1,4 @@
-package com.example.gnac_caculator
+package com.epatriote.gnac_caculator
 
 import io.flutter.embedding.android.FlutterActivity
 

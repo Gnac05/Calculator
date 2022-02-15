@@ -1,5 +1,5 @@
 name: gnac_caculator
-description: A new Flutter project.
+description: Notre Appli fait non seulement les calculs mais aussi plein d'autre chose comme le calcul du déterminant des matrices, donne l'inverse d'une matrice, résoud non seulement un système d'équation mais aussi les équations du second ordre.
 
 publish_to: "none"
 
