@@ -11,9 +11,9 @@ class APropos extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
+        child: ListView(
           children: [
-            Expanded(
+            SizedBox(
               child: Center(
                   child: Column(
                 children: [
@@ -37,7 +37,10 @@ class APropos extends StatelessWidget {
                 ],
               )),
             ),
-            Expanded(
+            SizedBox(
+              height: 20
+            ),
+            SizedBox(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const [

@@ -74,31 +74,38 @@ class _EquationState extends State<Equation> {
                       child: CustomTextFieldNumber(text: 'a', controller_: A)),
                   const Expanded(
                       flex: 1,
-                      child: Text(
-                        'x² + ',
-                        style: TextStyle(fontSize: 20),
+                      child: FittedBox(
+                        child: Text(
+                          'x² + ',
+                          style: TextStyle(fontSize: 20),
+                        ),
                       )),
                   Expanded(
                       flex: 2,
                       child: CustomTextFieldNumber(text: 'b', controller_: B)),
                   const Expanded(
                       flex: 1,
-                      child: Text(
-                        'x + ',
-                        style: TextStyle(fontSize: 20),
+                      child: FittedBox(
+                        child: Text(
+                          'x + ',
+                          style: TextStyle(fontSize: 20),
+                        ),
                       )),
                   Expanded(
                       flex: 2,
                       child: CustomTextFieldNumber(text: 'c', controller_: C)),
                   const Expanded(
                       flex: 1,
-                      child: Text(
-                        ' = 0',
-                        style: TextStyle(fontSize: 20),
+                      child: FittedBox(
+                        child: Text(
+                          ' = 0',
+                          style: TextStyle(fontSize: 20),
+                        ),
                       )),
                 ],
               ),
             ),
+            SizedBox(height: 10,),
             ElevatedButton(
               onPressed: () async {
                 if (A.text != '' &&

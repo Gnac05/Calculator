@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.epatriote.gnac_caculator">
    <application
-        android:name='io.flutter.app.FlutterApplication'
-        android:label="Calab"
+        android:name="${applicationName}"
+        android:label="CaLab"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

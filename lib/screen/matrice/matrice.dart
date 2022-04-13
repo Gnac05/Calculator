@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:gnac_caculator/screen/matrice/mat_size.dart';
+import 'package:gnac_caculator/screen/matrice/taille.dart';
+import 'package:gnac_caculator/screen/popupmenu.dart';
 
 bool inverse = false;
 
-class Matrice extends StatefulWidget {
-  const Matrice({Key? key}) : super(key: key);
+class Resoudre extends StatefulWidget {
+  const Resoudre({Key? key}) : super(key: key);
 
   @override
-  State<Matrice> createState() => _MatriceState();
+  State<Resoudre> createState() => _ResoudreState();
 }
 
-class _MatriceState extends State<Matrice> {
+class _ResoudreState extends State<Resoudre> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+      ),
         body: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -21,10 +26,17 @@ class _MatriceState extends State<Matrice> {
             //Déterminant
             child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  if (isGenerator) {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    inverse = false;
+                    return const TailleMatrice();
+                  }));
+                  } else {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
                     inverse = false;
                     return const MatSize();
                   }));
+                  }
                 },
                 child: const Text('Déterminant'))),
         const SizedBox(
@@ -33,11 +45,19 @@ class _MatriceState extends State<Matrice> {
         //inverse
         ElevatedButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
+              if (isGenerator) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                /*Inv()*/
+                inverse = true;
+                return const TailleMatrice();
+              }));
+              } else {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
                 /*Inv()*/
                 inverse = true;
                 return const MatSize();
               }));
+              }
             },
             child: const Text('Inverse')),
         const SizedBox(

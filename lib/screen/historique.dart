@@ -1,6 +1,5 @@
 // ignore_for_file: unused_element, prefer_is_empty, sized_box_for_whitespace
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gnac_caculator/data/colors_app.dart';
 import 'package:gnac_caculator/model/dtb_calcul.dart';

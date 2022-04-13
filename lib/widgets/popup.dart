@@ -7,16 +7,15 @@ class PopupWidget extends StatelessWidget {
   final Widget widget;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      // ignore: sized_box_for_whitespace
-      child: Text(
+    return ListTile(
+      onTap: () {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => widget));
+    } ,
+      title: Text(
         text,
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => widget));
-      },
     );
   }
 }

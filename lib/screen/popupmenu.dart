@@ -6,6 +6,7 @@ import 'package:gnac_caculator/widgets/popup.dart';
 import 'RSENI.dart';
 import 'equation.dart';
 
+bool isGenerator=false;
 class PopupMenu extends StatelessWidget {
   const PopupMenu({Key? key}) : super(key: key);
 
@@ -19,13 +20,25 @@ class PopupMenu extends StatelessWidget {
         const PopupMenuItem(
             child: PopupWidget(text: 'Historique', widget: Historique())),
         const PopupMenuItem(
-            child: PopupWidget(text: 'Matrice', widget: Matrice())),
+            child: PopupWidget(text: 'Matrice', widget: Resoudre())),
         const PopupMenuItem(
             child: PopupWidget(
                 text: 'Système d\'équations', widget: Resolution())),
         const PopupMenuItem(
             child: PopupWidget(text: 'A Propos', widget: APropos())),
-      //  const PopupMenuItem(child: PopupWidget(text: 'Auto Code', widget: Choix()))
+        PopupMenuItem(child: ListTile(
+      onTap: () {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) {
+            isGenerator=true;
+            return Resoudre();
+          }));
+    } ,
+      title: Text(
+        'Generator',
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+    ))
       ],
     );
   }

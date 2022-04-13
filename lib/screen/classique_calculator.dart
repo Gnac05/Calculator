@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names, unused_element, avoid_print, prefer_is_empty
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gnac_caculator/data/colors_app.dart';
 import 'package:gnac_caculator/model/calcul.dart';
@@ -9,7 +8,9 @@ import 'package:gnac_caculator/screen/popupmenu.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'dart:math';
 import 'package:fraction/fraction.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+// int _initialPage=0;
 class Classique extends StatefulWidget {
   const Classique({Key? key}) : super(key: key);
 
@@ -18,6 +19,8 @@ class Classique extends StatefulWidget {
 }
 
 List<Calcul> calculs = [];
+int isSelctedPageView = 0;
+final controllerPageView = PageController(initialPage: 0);
 
 class _ClassiqueState extends State<Classique> {
   String expression = "0";
@@ -126,8 +129,8 @@ class _ClassiqueState extends State<Classique> {
             expression = "0";
             result = "0";
             cursor = false;
-  positionCursorStart = 0;
-  positionCursorEnd = 1;
+            positionCursorStart = 0;
+            positionCursorEnd = 1;
             break;
           }
         case "DEL":
@@ -184,6 +187,7 @@ class _ClassiqueState extends State<Classique> {
               _length == 1
                   ? expression = '0'
                   : expression = expression.substring(0, _length - 1);
+              //  expression = expression.substring(0, _length - 1);
             }
 
             String equation = '';
@@ -272,9 +276,8 @@ class _ClassiqueState extends State<Classique> {
             String start = expression.substring(0, positionCursorStart);
             String end = expression.substring(positionCursorEnd);
             expression = start + 'ln(' + end;
-            positionCursorEnd=positionCursorEnd+3;
-            positionCursorStart=positionCursorStart+3;
-
+            positionCursorEnd = positionCursorEnd + 3;
+            positionCursorStart = positionCursorStart + 3;
           } else {
             expression == '0' ? expression = 'ln(' : expression += 'ln(';
           }
@@ -412,36 +415,30 @@ class _ClassiqueState extends State<Classique> {
                               reverse: true,
                               scrollDirection: Axis.horizontal,
                               children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 20),
-                                  child: TextSelectionTheme(
-                                    data: TextSelectionThemeData(
-                                        selectionColor: ePcolor,
-                                        cursorColor: ePcolor),
-                                    child: SelectableText(
-                                      expression,
-                                      showCursor: cursor,
-                                      onTap: (){
-                                        setState(() {
-                                          cursor=true;
-                                        });
-                                      },
-                                      onSelectionChanged:
-                                          (textSelection, cause) {
-                                        print('Début ${textSelection.start}');
-                                        print('fin ${textSelection.end}');
-                                        setState(() {
-                                          positionCursorStart =
-                                              textSelection.start;
-                                          positionCursorEnd = textSelection.end;
-                                        });
-                                        
-                                      },
-                                      style: TextStyle(
-                                          fontSize: size_expression,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                TextSelectionTheme(
+                                  data: TextSelectionThemeData(
+                                      selectionColor: ePcolor,
+                                      cursorColor: ePcolor),
+                                  child: SelectableText(
+                                    expression,
+                                    showCursor: cursor,
+                                    onTap: () {
+                                      setState(() {
+                                        cursor = false;
+                                      });
+                                    },
+                                    onSelectionChanged: (textSelection, cause) {
+                                      print('Début ${textSelection.start}');
+                                      print('fin ${textSelection.end}');
+                                      setState(() {
+                                        positionCursorStart =
+                                            textSelection.start;
+                                        positionCursorEnd = textSelection.end;
+                                      });
+                                    },
+                                    style: TextStyle(
+                                        fontSize: size_expression,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ],
@@ -489,8 +486,51 @@ class _ClassiqueState extends State<Classique> {
                 )),
 
             Expanded(
+                child: SmoothPageIndicator(
+                controller: controllerPageView,
+                count: 2,
+                effect: WormEffect(
+                  activeDotColor: ePcolor
+                ),
+                onDotClicked: (int index) {
+                  controllerPageView.animateToPage(index,
+                      duration: Duration(milliseconds: 1024),
+                      curve: Curves.easeInQuad);
+                },
+            )
+                //     Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Container(
+                //       height: 10,
+                //       width: isSelctedPageView==1? 10 : 20,
+                //       decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(10),
+                //         color:isSelctedPageView==1? Colors.grey : ePcolor
+                //       ),
+                //     ),
+                //     SizedBox(width: 15,),
+                //     Container(
+                //       height: 10,
+                //       width: isSelctedPageView==0? 10 : 20,
+                //       decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(10),
+                //         color:isSelctedPageView==0? Colors.grey : ePcolor
+                //       ),
+                //     ),
+                //   ],
+                // )
+                ),
+
+            Expanded(
               flex: 10,
               child: PageView(
+                controller: controllerPageView,
+                onPageChanged: (index) {
+                  setState(() {
+                    isSelctedPageView = index;
+                  });
+                },
                 children: [
                   Column(
                     children: [

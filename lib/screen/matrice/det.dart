@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
 import 'package:gnac_caculator/data/colors_app.dart';
+import 'package:gnac_caculator/functions/determinant.dart';
+import 'package:gnac_caculator/functions/inverse.dart';
 import 'package:gnac_caculator/screen/matrice/matrice.dart';
 import 'package:gnac_caculator/widgets/alert_dialog_error.dart';
 import 'package:gnac_caculator/widgets/textfield.dart';
@@ -225,33 +227,7 @@ class _DetState extends State<Det> {
   }
 }
 
-double determinant(List matrice) {
-  if (matrice.length == 1) {
-    return matrice[0][0];
-  } else {
-    double det = 0;
-    for (var i = 0; i < matrice.length; i++) {
-      det +=
-          (matrice[0][i] * pow(-1, 2 + i) * determinant(modif(matrice, 0, i)));
-    }
-    return det;
-  }
-}
 
-List modif(List matrice, int lign, int column) {
-  List new_lign = [];
-  List to_conserve = [];
-  List new_matrice = [];
-  new_matrice = matrice.sublist(0);
-  for (var i = 0; i < new_matrice.length; i++) {
-    new_lign = new_matrice[i];
-    to_conserve = new_lign.sublist(0);
-    to_conserve.removeAt(column);
-    new_matrice[i] = to_conserve.sublist(0);
-  }
-  new_matrice.removeAt(lign);
-  return new_matrice;
-}
 
 Widget ForMat2x2(BuildContext context) {
   return Scaffold(
@@ -1049,46 +1025,3 @@ Table AdaptationMatrice(int index) {
   }
 }
 
-// S'assurer que le déterminant de la matrice est
-//différent de zéro et
-//que pour le moment c'est une matrice n>=3
-List<List> inv(List<List> matrice) {
-  int length = matrice.length;
-  List<List> n_mat = initialaze(length);
-  double inv_det = (1 / determinant(matrice));
-  for (var i = 0; i < length; i++) {
-    for (var j = 0; j < length; j++) {
-      n_mat[i][j] = Fraction.fromDouble(
-          determinant(modif(matrice, i, j)) * pow(-1, j + i) * inv_det);
-    }
-  }
-  return tranpose(n_mat);
-}
-
-List<List> initialaze(int length) {
-  List zero = [];
-  List<List> _zero = [];
-  List l;
-  for (var i = 0; i < length; i++) {
-    zero.add(0);
-  }
-  for (var i = 0; i < length; i++) {
-    l = zero.sublist(0);
-    _zero.add(l);
-  }
-  return _zero;
-}
-
-List<List> tranpose(List mat_inversible) {
-  int length = mat_inversible.length;
-  List<List> mat_helper = [];
-  mat_helper = initialaze(length);
-  int i = 0;
-  int j = 0;
-  for (i = 0; i < length; i++) {
-    for (j = 0; j < length; j++) {
-      mat_helper[i][j] = mat_inversible[j][i];
-    }
-  }
-  return mat_helper;
-}

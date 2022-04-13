@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
 import 'package:gnac_caculator/data/colors_app.dart';
+import 'package:gnac_caculator/functions/determinant.dart';
 import 'package:gnac_caculator/widgets/alert_dialog_error.dart';
 import 'package:gnac_caculator/widgets/textfield.dart';
 import 'matrice/det.dart';

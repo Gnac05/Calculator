@@ -3,7 +3,7 @@ description: Notre Appli fait non seulement les calculs mais aussi plein d'autre
 
 publish_to: "none"
 
-version: 1.0.0+1
+version: 1.1.0
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -12,6 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
   # charts_flutter: ^0.12.0
+  lottie: ^1.2.2
+  smooth_page_indicator: ^1.0.0
   cupertino_icons: ^1.0.2
   math_expressions: ^2.2.0
   fraction: ^3.1.0
